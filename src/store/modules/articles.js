@@ -13,7 +13,7 @@ export default{
         }, 
         setArticle(state, {article}){
             state.article = article;
-        }
+        }, 
     }, 
     actions: {
         async getGlobalFeed({ commit }, payload = { page: 1 }){
@@ -50,6 +50,13 @@ export default{
             }
             const response = await api.get(route);
             commit("setArticle", response.data);
+        }, 
+        async deleteArticle({ commit }, {slug} ){
+            let route = "/articles/";
+            if(slug) {
+                route += slug ; 
+            }
+            const response = await api.delete(route);
         }, 
         async createArticle({ commit }, { title, description, body, tagList }) {
             try {

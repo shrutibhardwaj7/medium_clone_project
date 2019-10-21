@@ -29,7 +29,7 @@
           Edit Article 
         </button>
         &nbsp;&nbsp;
-         <button v-if="username == article.author.username"  class="btn btn-sm btn-outline-primary">
+         <button v-if="username == article.author.username" @click.prevent="deleteArticle" class="btn btn-sm btn-outline-primary">
           <i class="ion-heart"></i>
           &nbsp;
           Delete Article 
@@ -105,7 +105,17 @@ export default {
         this.$router.push({ name: "article" , params: { slug: this.article.slug }});
         this.commentBody = "";
       })
-  }
+    }, 
+    deleteArticle(){
+      this.$store.dispatch("articles/deleteArticle",{
+       slug: this.article.slug
+      }).then(() => {
+        this.$router.push({ name: "home" });
+      })
+      .catch(err => {
+        this.errors.push(err)
+      })
+    }
   },
   created(){
     this.fetchArticle();
